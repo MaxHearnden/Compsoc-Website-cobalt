@@ -1,0 +1,54 @@
+  <header
+    class="px-8 py-4 flex flex-col lg:flex-row m-0 justify-between items-center"
+  >
+    <div class="flex grow-0 items-center justify-between w-full">
+      <a href="/">
+        <h1 class="font-bold text-2em">
+          {% include "logo.liquid" %}
+        </h1>
+      </a>
+    </div>
+
+    <nav role="navigation">
+      <div id="menuToggle">
+        <input type="checkbox" id="menuCheckbox" ref="navigationCheckbox" />
+
+        <!--
+        Hamburger lines
+        -->
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+
+        <div
+          id="menu"
+          class="flex flex-col p-4 [&>*]:p-4 transition-colors font-bold text-md backdrop-blur-md rounded-bl-[20px]"
+        >
+          <a
+            class="hover:bg-[rgba(91,0,0,0.24)]"
+            href="/about"
+            @click="closeMenu"
+            >About Us</a
+          >
+          <a
+            class="hover:bg-[rgba(91,0,0,0.24)]"
+            href="/events"
+            @click="closeMenu"
+            >Events</a
+          >
+
+          <a
+            class="hover:bg-[rgba(91,0,0,0.24)]"
+            href="/slides"
+            @click="closeMenu"
+            >Slides</a
+          >
+          <a
+            class="hover:bg-[rgba(91,0,0,0.24)]"
+            href="https://photos.compsoc.io/"
+            >Photos</a
+          >
+        </div>
+      </div>
+    </nav>
+  </header>

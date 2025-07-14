@@ -1,0 +1,67 @@
+@import "tailwindcss" source(none);
+
+:root {
+  --highlight1Dark: #ec5042;
+  --highlight2Dark: #d14537;
+  --highlight1Light: #d12415;
+  --highlight2Light: #ae3428;
+
+  --highlight1: var(--highlight1Light);
+  --highlight2: var(--highlight2Light);
+}
+
+* {
+  margin: 0;
+  /* padding: 0; */
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  background: rgb(246, 112, 3);
+  background: linear-gradient(
+    135deg,
+    rgba(246, 112, 3, 1) 0%,
+    rgba(180, 34, 34, 1) 50%,
+    rgba(87, 1, 164, 1) 100%
+  );
+  @apply font-sans;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+
+  max-width: 100vw;
+  padding: 1rem 2rem;
+  line-height: 1.75;
+}
+
+main > * {
+  margin-bottom: 2.75em;
+}
+
+main a:not([class]) {
+  color: var(--highlight1Light);
+}
+
+@media (min-width: 30rem) {
+  main {
+    padding-inline: 0;
+    width: 80vw;
+    margin-inline: auto;
+  }
+}
+
+@media (min-width: 60rem) {
+  main {
+    max-width: 80rem;
+    width: 60vw;
+  }
+}
