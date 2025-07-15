@@ -17,7 +17,7 @@ stdenv.mkDerivation {
     cobalt build
 
     for page in "''${pages[@]}"; do
-      tailwindcss --cwd _site -i "$page".css -o "$page"_final.css
+      tailwindcss -m --cwd _site -i css/"$page".css -o "$page"_final.css
     done
   '';
 

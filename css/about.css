@@ -1,5 +1,5 @@
 @import "./app.css";
-@source "about.html";
+@source "../about.html";
 @import "./default.css";
 @import "./join.css";
 
