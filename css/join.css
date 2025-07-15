@@ -28,17 +28,3 @@
   font-size: 18px;
   margin-left: 15px;
 }
-
-.carbon--arrow-right {
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  --svg: url(/img/icon/carbon-arrow-right.svg);
-  background-color: currentColor;
-  -webkit-mask-image: var(--svg);
-  mask-image: var(--svg);
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-}
