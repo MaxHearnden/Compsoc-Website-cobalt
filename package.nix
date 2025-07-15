@@ -1,4 +1,4 @@
-{ cobalt, lib, nix-gitignore, orbitron, poppins, simple-http-server, stdenv, tailwindcss_4, woff2 }:
+{ cobalt, html-minifier, lib, nix-gitignore, orbitron, poppins, simple-http-server, stdenv, tailwindcss_4, woff2 }:
 
 stdenv.mkDerivation {
   name = "compsoc-website";
@@ -30,13 +30,26 @@ stdenv.mkDerivation {
     mkdir $out
     cp -r _site/img $out
     for page in "''${pages[@]}"; do
-      cp -r "_site/''${page}_final.css" "_site/$page.html" $out
+      cp _site/"$page"_final.css $out
+      html-minifier "''${minifierArgs[@]}" "_site/$page.html" -o "$out/$page.html"
     done
 
     cp _site/orbitron.woff2 _site/poppins.woff2 $out
   '';
 
-  nativeBuildInputs = [ cobalt tailwindcss_4 woff2 ];
+  minifierArgs = [
+    "--collapse-inline-tag-whitespace"
+    "--collapse-whitespace"
+    "--decodeEntities"
+    "--remove-attribute-quotes"
+    "--remove-comments"
+    "--remove-empty-elements"
+    "--remove-optional-tags"
+    "--remove-redundant-attributes"
+    "--remove-tag-whitespace"
+  ];
+
+  nativeBuildInputs = [ cobalt html-minifier tailwindcss_4 woff2 ];
 
   pages = [ "index" "about" ];
 
