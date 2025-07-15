@@ -40,7 +40,7 @@ stdenv.mkDerivation {
   minifierArgs = [
     "--collapse-inline-tag-whitespace"
     "--collapse-whitespace"
-    "--decodeEntities"
+    "--decode-entities"
     "--remove-attribute-quotes"
     "--remove-comments"
     "--remove-empty-elements"
