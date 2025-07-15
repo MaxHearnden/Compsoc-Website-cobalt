@@ -1,9 +1,9 @@
-{ cobalt, lib, makeWrapper, nix-gitignore, simple-http-server, stdenv, tailwindcss_4 }:
+{ cobalt, lib, nix-gitignore, simple-http-server, stdenv, tailwindcss_4 }:
 
 stdenv.mkDerivation {
   name = "compsoc-website";
 
-  outputs = [ "out" "bin" ];
+  outputs = [ "out" ];
 
   src = builtins.path {
     name = "source";
@@ -24,12 +24,7 @@ stdenv.mkDerivation {
   installPhase = ''
     mkdir $out
     cp -r _site/img _site/index_final.css _site/index.html $out
-
-    touch $bin
-    # makeWrapper ${lib.getExe simple-http-server} $bin/bin/web-server --append-flag $out
   '';
 
-  nativeBuildInputs = [ cobalt makeWrapper tailwindcss_4 ];
-
-  meta.mainProgram = "web-server";
+  nativeBuildInputs = [ cobalt tailwindcss_4 ];
 }
