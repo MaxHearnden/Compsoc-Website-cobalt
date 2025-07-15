@@ -19,6 +19,11 @@ stdenv.mkDerivation {
     for page in "''${pages[@]}"; do
       tailwindcss -m --cwd _site -i css/"$page".css -o "$page"_final.css
     done
+
+    cp ${orbitron}/share/fonts/opentype/Orbitron\ Light.otf _site/orbitron.otf
+    cp ${poppins}/share/fonts/truetype/Poppins-Light.ttf _site/poppins.ttf
+    woff2_compress _site/orbitron.otf
+    woff2_compress _site/poppins.ttf
   '';
 
   installPhase = ''
@@ -28,10 +33,7 @@ stdenv.mkDerivation {
       cp -r "_site/''${page}_final.css" "_site/$page.html" $out
     done
 
-    cp ${orbitron}/share/fonts/opentype/Orbitron\ Light.otf $out/orbitron.otf
-    cp ${poppins}/share/fonts/truetype/Poppins-Light.ttf $out/poppins.ttf
-    woff2_compress $out/orbitron.otf
-    woff2_compress $out/poppins.ttf
+    cp _site/orbitron.woff2 _site/poppins.woff2 $out
   '';
 
   nativeBuildInputs = [ cobalt tailwindcss_4 woff2 ];
