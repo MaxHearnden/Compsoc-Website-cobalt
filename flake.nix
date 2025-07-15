@@ -7,7 +7,7 @@
       apps = lib.mapAttrs (system: pkgs: {
         default = {
           program = lib.getExe (pkgs.writeShellScriptBin "web-server" ''
-            ${lib.getExe pkgs.simple-http-server} -i "$@" -- $out
+            ${lib.getExe pkgs.simple-http-server} -i "$@" -- ${self.packages.${system}.default}
           '');
           type = "app";
         };
