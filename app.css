@@ -1,4 +1,11 @@
 @import "tailwindcss" source(none);
+@import "./fonts.css";
+
+@layer theme {
+  :root {
+    --font-sans: Poppins;
+  }
+}
 
 :root {
   --highlight1Dark: #ec5042;
@@ -10,11 +17,13 @@
   --highlight2: var(--highlight2Light);
 }
 
-* {
-  margin: 0;
-  /* padding: 0; */
-  box-sizing: border-box;
-  scroll-behavior: smooth;
+@layer components {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+  }
 }
 
 html,
@@ -35,16 +44,20 @@ body {
   flex-direction: column;
 }
 
-main {
-  flex: 1;
+@layer components {
+  main {
+    flex: 1;
 
-  max-width: 100vw;
-  padding: 1rem 2rem;
-  line-height: 1.75;
+    max-width: 100vw;
+    padding: 1rem 2rem;
+    line-height: 1.75;
+  }
 }
 
-main > * {
-  margin-bottom: 2.75em;
+@layer components {
+  main > * {
+    margin-bottom: 2.75em;
+  }
 }
 
 main a:not([class]) {

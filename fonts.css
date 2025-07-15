@@ -1,0 +1,17 @@
+@font-face {
+  font-family: Orbitron;
+  src: url(/orbitron/Orbitron%20Light.otf)
+}
+
+@font-face {
+  font-family: Poppins;
+  src: url(/Poppins/Poppins-Light.ttf)
+}
+
+.font-heading {
+  font-family: "Orbitron";
+}
+
+.font-mono {
+  font-family: "Orbitron";
+}

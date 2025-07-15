@@ -1,12 +1,12 @@
 @import "./logo-text.css";
 
-img {
+.compsoc-logo {
   width: 3rem;
   height: 3rem;
 }
 
 @media only screen and (max-width: 400px) {
-  #text {
+  .compsoc-logo-text {
     display: none;
   }
 }
