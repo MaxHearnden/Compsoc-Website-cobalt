@@ -3,8 +3,6 @@
 stdenv.mkDerivation {
   name = "compsoc-website";
 
-  outputs = [ "out" ];
-
   src = builtins.path {
     name = "source";
     path = ./.;
@@ -18,15 +16,24 @@ stdenv.mkDerivation {
   buildPhase = ''
     cobalt build
 
-    tailwindcss --cwd _site -i index.css -o index_final.css
+    for page in "''${pages[@]}"; do
+      tailwindcss --cwd _site -i "$page".css -o "$page"_final.css
+    done
   '';
 
   installPhase = ''
     mkdir $out
-    cp -r _site/img _site/index_final.css _site/index.html $out
+    cp -r _site/img $out
+    for page in "''${pages[@]}"; do
+      cp -r "_site/''${page}_final.css" "_site/$page.html" $out
+    done
     cp -r ${orbitron}/share/fonts/opentype $out/orbitron
     cp -r ${poppins}/share/fonts/truetype $out/Poppins
   '';
 
   nativeBuildInputs = [ cobalt tailwindcss_4 ];
+
+  pages = [ "index" "about" ];
+
+  __structuredAttrs = true;
 }
