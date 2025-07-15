@@ -17,6 +17,7 @@
         default = self.packages.${system}.default.overrideAttrs (
           { nativeBuildInputs ? [], ... }: {
             nativeBuildInputs = nativeBuildInputs ++ [ pkgs.watchexec ];
+            src = null;
           });
       }) legacyPackages;
 
