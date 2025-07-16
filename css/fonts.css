@@ -8,10 +8,20 @@
   src: url(/poppins.woff2)
 }
 
+@font-face {
+  font-family: Poppins-light;
+  src: url(/poppins-light.woff2)
+}
+
 .font-heading {
   font-family: "Orbitron";
+  /* font-weight: 400; */
 }
 
 .font-mono {
   font-family: "Orbitron";
+}
+
+.font-poppins-light {
+  font-family: "Poppins-light";
 }
