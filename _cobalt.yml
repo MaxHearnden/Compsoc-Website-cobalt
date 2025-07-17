@@ -8,6 +8,8 @@ ignore:
   - "/meson.options"
   - "/result*"
   - "flake.lock"
+  - "setup"
+  - "watch"
 
 site:
   title: Compsoc Website

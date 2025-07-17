@@ -59,7 +59,7 @@ logo_sources = [
 common_css_files = []
 
 foreach css_file : common_css_sources
-  common_css_files += fs.copyfile('css/' + css_file, install_dir: 'css')
+  common_css_files += fs.copyfile('css' / css_file, install_dir: 'css')
 endforeach
 
 logos = []
@@ -108,7 +108,7 @@ foreach page : cobalt.to_list()
   css_destination = fs.replace_suffix(basename, '') + '_final.css'
   css_files += custom_target(
     css_destination,
-    input: [ fs.copyfile('css/' + css) ],
+    input: [ fs.copyfile('css' / css) ],
     output: [ css_destination ],
     command: [ tailwindcss, '-m', '-i', '@INPUT@', '-o', '@OUTPUT@'],
     depends: [ cobalt ] + common_css_files,
