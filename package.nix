@@ -1,4 +1,4 @@
-{ cobalt, html-minifier, lib, meson, ninja, nix-gitignore, poppins, stdenv, tailwindcss_4, woff2 }:
+{ cobalt, html-minifier, lib, meson, minify_html ? true, minify_css ? true, ninja, nix-gitignore, poppins, stdenv, tailwindcss_4, woff2 }:
 
 stdenv.mkDerivation {
   name = "compsoc-website";
@@ -15,9 +15,12 @@ stdenv.mkDerivation {
     ] ./.;
   };
 
-  mesonFlags = [ "-Dpoppins_src=${poppins}/share/fonts/truetype/" ];
+  mesonFlags =
+    [ "-Dpoppins_src=${poppins}/share/fonts/truetype/" ]
+    ++ lib.optional (!minify_html) "-Dminify_html=disabled"
+    ++ lib.optional (!minify_css) "-Dminify_css=false";
 
-  nativeBuildInputs = [ cobalt html-minifier meson ninja tailwindcss_4 woff2 ];
+  nativeBuildInputs = [ cobalt meson ninja tailwindcss_4 woff2 ] ++ lib.optional minify_html html-minifier;
 
   __structuredAttrs = true;
 }

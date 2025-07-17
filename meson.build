@@ -7,7 +7,7 @@ pages = [
   'about',
 ]
 
-html_minifier = find_program('html-minifier', required: false)
+html_minifier = find_program('html-minifier', required: get_option('minify_html'))
 tailwindcss = find_program('tailwindcss')
 
 website_files = [
@@ -102,30 +102,38 @@ css_files = []
 
 html_files = []
 
+if get_option('minify_css')
+  minify_css_argument = ['-m']
+else
+  minify_css_argument = []
+endif
+
 foreach page : cobalt.to_list()
   basename = fs.name(page.full_path()).substring(0, -10)
   css = fs.replace_suffix(basename, '.css')
   css_destination = fs.replace_suffix(basename, '') + '_final.css'
+  css_rule = get_option('minify_css') ? css_destination + ' minified' : css_destination
   css_files += custom_target(
-    css_destination,
+    css_rule,
     input: [ fs.copyfile('css' / css) ],
     output: [ css_destination ],
-    command: [ tailwindcss, '-m', '-i', '@INPUT@', '-o', '@OUTPUT@'],
-    depends: [ cobalt ] + common_css_files,
+    command: [ tailwindcss, '-i', '@INPUT@', '-o', '@OUTPUT@'] + minify_css_argument,
+    depends: [ page ] + common_css_files,
     install: true,
     install_dir: '',
   )
+  output_html_filename = fs.replace_suffix(basename, '.html')
   if html_minifier.found()
     html_files += custom_target(
       basename + ' minified',
       input: [page],
-      output: [fs.replace_suffix(basename, '.html')],
+      output: [output_html_filename],
       install: true,
       install_dir: '.',
       command: [html_minifier, '@INPUT@', '-o', '@OUTPUT@' ] + minifier_args,
     )
   else
-    html_files += custom_target(basename, input: [page], output: [basename], command: ['cp', '@INPUT@', '@OUTPUT@'], install: true, install_dir: '.')
+    html_files += custom_target(basename, input: [page], output: [output_html_filename], command: ['cp', '@INPUT@', '@OUTPUT@'], install: true, install_dir: '.')
   endif
 endforeach
 

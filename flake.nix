@@ -20,10 +20,17 @@
             src = null;
             __structuredAttrs = false;
           });
+        unminified = self.packages.${system}.unminified.overrideAttrs (
+          { nativeBuildInputs ? [], ... }: {
+            nativeBuildInputs = nativeBuildInputs ++ [ pkgs.watchexec pkgs.simple-http-server ];
+            src = null;
+            __structuredAttrs = false;
+          });
       }) legacyPackages;
 
       packages = lib.mapAttrs (system: pkgs: {
         default = pkgs.callPackage ./package.nix { };
+        unminified = pkgs.callPackage ./package.nix { minify_html = false; minify_css = false; };
       }) legacyPackages;
     };
 }
