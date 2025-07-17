@@ -1,3 +1,12 @@
+ignore:
+  - "*.nix"
+  - "/build*"
+  - "/css"
+  - "/fonts"
+  - "/img"
+  - "/meson.build"
+  - "/result*"
+  - "flake.lock"
 
 site:
   title: Compsoc Website

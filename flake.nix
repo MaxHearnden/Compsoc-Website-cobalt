@@ -18,6 +18,7 @@
           { nativeBuildInputs ? [], ... }: {
             nativeBuildInputs = nativeBuildInputs ++ [ pkgs.watchexec ];
             src = null;
+            __structuredAttrs = false;
           });
       }) legacyPackages;
 
