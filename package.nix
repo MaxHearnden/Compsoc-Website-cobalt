@@ -1,4 +1,4 @@
-{ cobalt, html-minifier, lib, meson, ninja, nix-gitignore, poppins, simple-http-server, stdenv, tailwindcss_4, woff2 }:
+{ cobalt, html-minifier, lib, meson, ninja, nix-gitignore, poppins, stdenv, tailwindcss_4, woff2 }:
 
 stdenv.mkDerivation {
   name = "compsoc-website";
@@ -10,6 +10,8 @@ stdenv.mkDerivation {
       ".gitignore"
       "*.nix"
       "flake.lock"
+      "/setup"
+      "/watch"
     ] ./.;
   };
 
