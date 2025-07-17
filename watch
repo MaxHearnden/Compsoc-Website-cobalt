@@ -1,0 +1,53 @@
+#!/bin/sh
+
+set -e
+
+srcdir=$(dirname "$0")
+
+flake=
+builddir=build
+restart=no
+
+args=$#
+while [ "$args" != 0 ]; do
+  case "$1" in
+    --builddir)
+      builddir=$2
+      shift 2
+      args=$((args - 2));;
+    --flake)
+      flake=$2
+      shift 2
+      args=$((args - 2));;
+    --restart)
+      restart=yes
+      shift
+      args=$((args - 1));;
+    *)
+      set -- "$@" "$1"
+      shift 1
+      args=$((args - 1));;
+  esac
+done
+
+set -- meson compile -C "$builddir" "$@"
+
+if [ "$restart" = yes ]; then
+  set -- watchexec -cclear -n --restart -- "$@"
+else
+  set -- watchexec -cclear -n -- "$@"
+fi
+
+if [ "$NO_NIX" != yes ] && command -v nix > /dev/null; then
+  if [ -z "${flake+}" ]; then
+    if [ -e "$srcdir/.git" ]; then
+      flake=$(realpath -- "$srcdir")
+    else
+      flake=path:$srcdir
+    fi
+  fi
+  set -- nix develop -i -k TERM "$flake" -c "$@"
+fi
+
+set -x
+exec "$@"

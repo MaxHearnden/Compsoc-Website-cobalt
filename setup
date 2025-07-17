@@ -1,0 +1,67 @@
+#!/bin/sh
+
+set -e
+
+srcdir=$(dirname "$0")
+
+if [ "${NO_NIX-}" = yes ] || ! command -v nix > /dev/null; then
+  case "$srcdir" in
+    /*)
+      abssrcdir=$srcdir;;
+    *)
+      abssrcdir=$PWD/$srcdir
+  esac
+  args=$#
+  builddir=build
+  watch=no
+  while [ "$args" != 0 ]; do
+    case "$1" in
+      --builddir)
+        builddir=$2
+        shift 1
+        set -- "$@" --builddir "$1"
+        args=$((args - 1));;
+      --watch)
+        watch=yes;;
+      *)
+        set -- "$@" "$1";;
+    esac
+    shift 1
+    args=$((args - 1))
+  done
+
+  if [ "$watch" = yes ]; then
+    flags=$-
+    set -x
+    # shellcheck disable=SC2086
+    meson setup --reconfigure ${mesonFlags-} -- "$srcdir" "$builddir"
+    exec "$srcdir/watch" "$@"
+  else
+    set -x
+    # shellcheck disable=SC2086
+    exec meson setup --reconfigure ${mesonFlags-} -- "$srcdir" "$builddir"
+  fi
+else
+  if [ -e "$srcdir/.git" ]; then
+    flake=git+file://$(realpath -- "$srcdir")
+  else
+    flake=path:$(realpath -- "$srcdir")
+  fi
+
+  args=$#
+  while [ "$args" != 0 ]; do
+    case "$1" in
+      --flake)
+        flake=$2
+        args=$((args - 2))
+        shift 2;;
+      *)
+        set -- "$@" "$1"
+        args=$((args - 1))
+        shift 1;;
+    esac
+  done
+  flags=$-
+  set -x
+  NO_NIX=yes exec nix develop -i -k TERM -k NO_NIX "$flake" -c sh -"$flags" "$0" "$@"
+fi

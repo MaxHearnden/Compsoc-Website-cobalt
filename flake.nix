@@ -16,7 +16,7 @@
       devShells = lib.mapAttrs (system: pkgs: {
         default = self.packages.${system}.default.overrideAttrs (
           { nativeBuildInputs ? [], ... }: {
-            nativeBuildInputs = nativeBuildInputs ++ [ pkgs.watchexec ];
+            nativeBuildInputs = nativeBuildInputs ++ [ pkgs.watchexec pkgs.simple-http-server ];
             src = null;
             __structuredAttrs = false;
           });

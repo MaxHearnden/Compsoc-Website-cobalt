@@ -64,8 +64,10 @@ foreach css_file : common_css_sources
   common_css_files += fs.copyfile('css/' + css_file, install_dir: 'css')
 endforeach
 
+logos = []
+
 foreach logo : logo_sources
-  fs.copyfile(logo, install: true, install_dir: 'img/logo')
+  logos += fs.copyfile(logo, install: true, install_dir: 'img/logo')
 endforeach
 
 poppins = get_option('poppins_src')
@@ -98,11 +100,15 @@ minifier_args = [
   '--remove-tag-whitespace',
 ]
 
+css_files = []
+
+html_files = []
+
 foreach page : cobalt.to_list()
   basename = fs.name(page.full_path()).substring(0, -10)
   css = fs.replace_suffix(basename, '.css')
   css_destination = fs.replace_suffix(basename, '') + '_final.css'
-  custom_target(
+  css_files += custom_target(
     css_destination,
     input: [ fs.copyfile('css/' + css) ],
     output: [ css_destination ],
@@ -112,7 +118,7 @@ foreach page : cobalt.to_list()
     install_dir: '',
   )
   if html_minifier.found()
-    custom_target(
+    html_files += custom_target(
       basename + ' minified',
       input: [page],
       output: [fs.replace_suffix(basename, '.html')],
@@ -121,6 +127,10 @@ foreach page : cobalt.to_list()
       command: [html_minifier, '@INPUT@', '-o', '@OUTPUT@' ] + minifier_args,
     )
   else
-    custom_target(basename, input: [page], output: [basename], command: ['cp', '@INPUT@', '@OUTPUT@'], install: true, install_dir: '.')
+    html_files += custom_target(basename, input: [page], output: [basename], command: ['cp', '@INPUT@', '@OUTPUT@'], install: true, install_dir: '.')
   endif
 endforeach
+
+http_server = find_program('simple-http-server', required: false, disabler: true)
+
+run_target('server', command: [http_server, '-i', '@BUILD_ROOT@'], depends: html_files + css_files + logos + fonts)
