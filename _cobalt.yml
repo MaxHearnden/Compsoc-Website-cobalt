@@ -5,6 +5,7 @@ ignore:
   - "/fonts"
   - "/img"
   - "/meson.build"
+  - "/meson.options"
   - "/result*"
   - "flake.lock"
 
