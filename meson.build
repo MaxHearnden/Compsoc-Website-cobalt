@@ -65,7 +65,7 @@ endforeach
 logos = []
 
 foreach logo : logo_sources
-  logos += fs.copyfile(logo, install: true, install_dir: 'img/logo')
+  logos += fs.copyfile(logo, install: true, install_dir: '.')
 endforeach
 
 poppins = get_option('poppins_src')
