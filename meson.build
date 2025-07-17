@@ -40,8 +40,6 @@ cobalt = custom_target(
   install_dir: 'cobalt',
 )
 
-tailwind = generator(tailwindcss, output: '@BASENAME@_final.css', arguments: ['-i', '@INPUT@', '-o', '@OUTPUT@'], depends: [cobalt])
-
 common_css_sources = [
   'app.css',
   'default.css',
