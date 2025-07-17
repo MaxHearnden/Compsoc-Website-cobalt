@@ -15,18 +15,6 @@ stdenv.mkDerivation {
 
   mesonFlags = [ "-Dpoppins_src=${poppins}/share/fonts/truetype/" ];
 
-  minifierArgs = [
-    "--collapse-inline-tag-whitespace"
-    "--collapse-whitespace"
-    "--decode-entities"
-    "--remove-attribute-quotes"
-    "--remove-comments"
-    "--remove-empty-elements"
-    "--remove-optional-tags"
-    "--remove-redundant-attributes"
-    "--remove-tag-whitespace"
-  ];
-
   nativeBuildInputs = [ cobalt html-minifier meson ninja tailwindcss_4 woff2 ];
 
   __structuredAttrs = true;
